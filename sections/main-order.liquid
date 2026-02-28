@@ -1,0 +1,107 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div style="margin-bottom: 32px;" data-animate>
+      <a href="{{ routes.account_url }}" style="font-size: 0.85rem; color: var(--color-primary);">← {{ 'customer.account.return' | t }}</a>
+      <h1 class="h2" style="margin-top: 12px;">{{ 'customer.order.title' | t: name: order.name }}</h1>
+      <p style="color: var(--color-text-secondary); font-size: 0.9rem;">{{ 'customer.order.date_html' | t: date: order.created_at | date: '%B %d, %Y' }}</p>
+
+      {%- if order.cancelled -%}
+        <div style="margin-top: 16px; padding: 12px 16px; background: #fef2f2; border-radius: var(--radius-sm); color: #e74c3c; font-size: 0.9rem;">
+          {{ 'customer.order.cancelled_html' | t: date: order.cancelled_at | date: '%B %d, %Y' }}
+          <br>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
+      <thead>
+        <tr>
+          <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: left; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.order.product' | t }}</th>
+          <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: left; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.order.sku' | t }}</th>
+          <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: left; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.order.price' | t }}</th>
+          <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: left; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.order.quantity' | t }}</th>
+          <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: right; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.order.total' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr>
+            <td style="padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.06);">
+              <p style="font-weight: 600;">{{ line_item.title }}</p>
+              {%- if line_item.fulfillment -%}
+                <p style="font-size: 0.8rem; color: var(--color-text-secondary); margin-top: 4px;">
+                  {{ 'customer.order.fulfilled_at_html' | t: date: line_item.fulfillment.created_at | date: '%B %d, %Y' }}
+                  {%- if line_item.fulfillment.tracking_url -%}
+                    — <a href="{{ line_item.fulfillment.tracking_url }}" style="color: var(--color-primary);">{{ 'customer.order.track_shipment' | t }}</a>
+                  {%- endif -%}
+                </p>
+              {%- endif -%}
+            </td>
+            <td style="padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 0.85rem; color: var(--color-text-secondary);">{{ line_item.sku | default: '—' }}</td>
+            <td style="padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.06);">{{ line_item.final_price | money }}</td>
+            <td style="padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.06);">{{ line_item.quantity }}</td>
+            <td style="padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.06); text-align: right; font-weight: 600;">{{ line_item.final_line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px;">
+      <div>
+        <h3 class="h5" style="margin-bottom: 12px;">{{ 'customer.order.billing_address' | t }}</h3>
+        <p style="font-size: 0.85rem; margin-bottom: 8px;"><strong>{{ 'customer.order.payment_status' | t }}:</strong> {{ order.financial_status_label }}</p>
+        <div style="font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.7;">{{ order.billing_address | format_address }}</div>
+      </div>
+
+      <div>
+        <h3 class="h5" style="margin-bottom: 12px;">{{ 'customer.order.shipping_address' | t }}</h3>
+        <p style="font-size: 0.85rem; margin-bottom: 8px;"><strong>{{ 'customer.order.fulfillment_status' | t }}:</strong> {{ order.fulfillment_status_label }}</p>
+        <div style="font-size: 0.9rem; color: var(--color-text-secondary); line-height: 1.7;">{{ order.shipping_address | format_address }}</div>
+      </div>
+
+      <div>
+        <h3 class="h5" style="margin-bottom: 12px;">Order Summary</h3>
+        <div style="font-size: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+            <span>{{ 'customer.order.subtotal' | t }}</span>
+            <span>{{ order.line_items_subtotal_price | money }}</span>
+          </div>
+          {%- for discount in order.discounts -%}
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; color: #e74c3c;">
+              <span>{{ 'customer.order.discount' | t }} ({{ discount.code }})</span>
+              <span>-{{ discount.savings | money }}</span>
+            </div>
+          {%- endfor -%}
+          {%- for shipping_method in order.shipping_methods -%}
+            <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+              <span>{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</span>
+              <span>{{ shipping_method.price | money }}</span>
+            </div>
+          {%- endfor -%}
+          {%- for tax_line in order.tax_lines -%}
+            <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+              <span>{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</span>
+              <span>{{ tax_line.price | money }}</span>
+            </div>
+          {%- endfor -%}
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; margin-top: 8px; border-top: 2px solid rgba(0,0,0,0.08); font-weight: 700; font-size: 1.05rem;">
+            <span>{{ 'customer.order.total' | t }}</span>
+            <span>{{ order.total_net_amount | money }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer order",
+  "tag": "section",
+  "class": "section-order",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
+}
+{% endschema %}

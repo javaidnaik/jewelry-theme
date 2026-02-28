@@ -1,0 +1,67 @@
+{%- comment -%}
+  Reusable address form fields for customer addresses.
+  Usage: {% render 'address-form', form: form %}
+{%- endcomment -%}
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+  <div>
+    <label for="{{ form.id }}_first_name" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.first_name' | t }}</label>
+    <input type="text" name="address[first_name]" id="{{ form.id }}_first_name" value="{{ form.first_name }}" autocomplete="given-name" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+  </div>
+  <div>
+    <label for="{{ form.id }}_last_name" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.last_name' | t }}</label>
+    <input type="text" name="address[last_name]" id="{{ form.id }}_last_name" value="{{ form.last_name }}" autocomplete="family-name" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+  </div>
+</div>
+
+<div style="margin-top: 16px;">
+  <label for="{{ form.id }}_company" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.company' | t }}</label>
+  <input type="text" name="address[company]" id="{{ form.id }}_company" value="{{ form.company }}" autocomplete="organization" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+</div>
+
+<div style="margin-top: 16px;">
+  <label for="{{ form.id }}_address1" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.address1' | t }}</label>
+  <input type="text" name="address[address1]" id="{{ form.id }}_address1" value="{{ form.address1 }}" autocomplete="address-line1" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+</div>
+
+<div style="margin-top: 16px;">
+  <label for="{{ form.id }}_address2" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.address2' | t }}</label>
+  <input type="text" name="address[address2]" id="{{ form.id }}_address2" value="{{ form.address2 }}" autocomplete="address-line2" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+  <div>
+    <label for="{{ form.id }}_city" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.city' | t }}</label>
+    <input type="text" name="address[city]" id="{{ form.id }}_city" value="{{ form.city }}" autocomplete="address-level2" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+  </div>
+  <div>
+    <label for="{{ form.id }}_zip" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.zip' | t }}</label>
+    <input type="text" name="address[zip]" id="{{ form.id }}_zip" value="{{ form.zip }}" autocomplete="postal-code" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+  <div>
+    <label for="{{ form.id }}_country" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.country' | t }}</label>
+    <select name="address[country]" id="{{ form.id }}_country" data-default="{{ form.country }}" autocomplete="country" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+      {{ all_country_option_tags }}
+    </select>
+  </div>
+  <div>
+    <label for="{{ form.id }}_province" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.province' | t }}</label>
+    <select name="address[province]" id="{{ form.id }}_province" data-default="{{ form.province }}" autocomplete="address-level1" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+    </select>
+  </div>
+</div>
+
+<div style="margin-top: 16px;">
+  <label for="{{ form.id }}_phone" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.addresses.phone' | t }}</label>
+  <input type="tel" name="address[phone]" id="{{ form.id }}_phone" value="{{ form.phone }}" autocomplete="tel" style="width: 100%; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+</div>
+
+<div style="margin-top: 16px;">
+  <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+    <input type="checkbox" name="address[default]" value="1">
+    {{ 'customer.addresses.set_default' | t }}
+  </label>
+</div>

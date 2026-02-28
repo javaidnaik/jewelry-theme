@@ -1,0 +1,39 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container" style="max-width: 480px;">
+    <div style="text-align: center; padding: 60px 0;" data-animate>
+      <h1 class="h2" style="margin-bottom: 12px;">{{ 'customer.activate_account.title' | t }}</h1>
+      <p style="color: var(--color-text-secondary); margin-bottom: 32px;">{{ 'customer.activate_account.subtext' | t }}</p>
+
+      {% form 'activate_customer_password' %}
+        {{ form.errors | default_errors }}
+
+        <div style="margin-bottom: 20px; text-align: left;">
+          <label for="ActivatePassword" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.activate_account.password' | t }}</label>
+          <input type="password" name="customer[password]" id="ActivatePassword" autocomplete="new-password" required style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+        </div>
+
+        <div style="margin-bottom: 24px; text-align: left;">
+          <label for="ActivatePasswordConfirm" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.activate_account.password_confirm' | t }}</label>
+          <input type="password" name="customer[password_confirmation]" id="ActivatePasswordConfirm" autocomplete="new-password" required style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+        </div>
+
+        <button type="submit" class="btn btn--primary" style="width: 100%;">{{ 'customer.activate_account.submit' | t }}</button>
+        <p style="margin-top: 16px;">
+          <a href="{{ routes.account_login_url }}" style="font-size: 0.85rem; color: var(--color-text-secondary);">{{ 'customer.activate_account.cancel' | t }}</a>
+        </p>
+      {% endform %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Activate account",
+  "tag": "section",
+  "class": "section-activate-account",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
+}
+{% endschema %}

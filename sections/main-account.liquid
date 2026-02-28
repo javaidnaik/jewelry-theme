@@ -1,0 +1,70 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; flex-wrap: wrap; gap: 16px;" data-animate>
+      <h1 class="h2">{{ 'customer.account.title' | t }}</h1>
+      <a href="{{ routes.account_logout_url }}" class="btn btn--outline" style="padding: 10px 24px; font-size: 0.75rem;">{{ 'customer.log_out' | t }}</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;" data-animate>
+      {%- comment -%} Order history {%- endcomment -%}
+      <div>
+        <h2 class="h4" style="margin-bottom: 24px;">{{ 'customer.orders.title' | t }}</h2>
+
+        {%- if customer.orders.size > 0 -%}
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: left; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.orders.order_number' | t }}</th>
+                <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: left; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.orders.date' | t }}</th>
+                <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: left; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.orders.total' | t }}</th>
+                <th style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-align: left; padding: 12px 0; border-bottom: 2px solid rgba(0,0,0,0.08);">{{ 'customer.orders.fulfillment_status' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr>
+                  <td style="padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.06);">
+                    <a href="{{ order.customer_url }}" style="color: var(--color-primary); font-weight: 600;">{{ order.name }}</a>
+                  </td>
+                  <td style="padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 0.9rem; color: var(--color-text-secondary);">{{ order.created_at | date: '%B %d, %Y' }}</td>
+                  <td style="padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-weight: 600;">{{ order.total_net_amount | money }}</td>
+                  <td style="padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 0.85rem;">{{ order.fulfillment_status_label }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        {%- else -%}
+          <p style="color: var(--color-text-secondary);">{{ 'customer.orders.none' | t }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Account details {%- endcomment -%}
+      <div>
+        <h2 class="h4" style="margin-bottom: 24px;">{{ 'customer.account.details' | t }}</h2>
+
+        <p style="font-weight: 600; margin-bottom: 4px;">{{ customer.name }}</p>
+        <p style="color: var(--color-text-secondary); margin-bottom: 16px;">{{ customer.email }}</p>
+
+        {%- if customer.default_address -%}
+          <div style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.7; margin-bottom: 16px;">
+            {{ customer.default_address | format_address }}
+          </div>
+        {%- endif -%}
+
+        <a href="{{ routes.account_addresses_url }}" style="font-size: 0.85rem; color: var(--color-primary); font-weight: 600;">{{ 'customer.account.view_addresses' | t }} →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer account",
+  "tag": "section",
+  "class": "section-account",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
+}
+{% endschema %}

@@ -167,17 +167,20 @@
           {%- endif -%}
 
           {%- for block in section.blocks -%}
-            {%- if block.type == 'tab' -%}
-              <div class="product-accordion__item" {{ block.shopify_attributes }}>
-                <button class="product-accordion__trigger" aria-expanded="false">
-                  {{ block.settings.heading }}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="product-accordion__content">
-                  <div class="product-accordion__body">{{ block.settings.content }}</div>
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+              {%- when 'tab' -%}
+                <div class="product-accordion__item" {{ block.shopify_attributes }}>
+                  <button class="product-accordion__trigger" aria-expanded="false">
+                    {{ block.settings.heading }}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="product-accordion__content">
+                    <div class="product-accordion__body">{{ block.settings.content }}</div>
+                  </div>
                 </div>
-              </div>
-            {%- endif -%}
+            {%- endcase -%}
           {%- endfor -%}
         </div>
       </div>
@@ -206,6 +209,9 @@
   ],
   "blocks": [
     {
+      "type": "@app"
+    },
+    {
       "type": "tab",
       "name": "Custom tab",
       "settings": [
@@ -223,6 +229,9 @@
         }
       ]
     }
-  ]
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
 }
 {% endschema %}

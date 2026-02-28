@@ -1,0 +1,94 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container" style="max-width: 480px;">
+    <div style="text-align: center; padding: 60px 0;" data-animate>
+      <h1 class="h2" style="margin-bottom: 32px;">{{ 'customer.login_page.title' | t }}</h1>
+
+      {% form 'customer_login' %}
+        {{ form.errors | default_errors }}
+
+        <div style="margin-bottom: 20px; text-align: left;">
+          <label for="CustomerEmail" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.login_page.email' | t }}</label>
+          <input
+            type="email"
+            name="customer[email]"
+            id="CustomerEmail"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            required
+            style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;"
+          >
+        </div>
+
+        <div style="margin-bottom: 12px; text-align: left;">
+          <label for="CustomerPassword" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.login_page.password' | t }}</label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="CustomerPassword"
+            autocomplete="current-password"
+            required
+            style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;"
+          >
+        </div>
+
+        <p style="text-align: right; margin-bottom: 24px;">
+          <a href="#recover" style="font-size: 0.8rem; color: var(--color-primary);">{{ 'customer.login_page.forgot_password' | t }}</a>
+        </p>
+
+        <button type="submit" class="btn btn--primary" style="width: 100%;">{{ 'customer.login_page.sign_in' | t }}</button>
+      {% endform %}
+
+      <p style="margin-top: 24px; font-size: 0.9rem; color: var(--color-text-secondary);">
+        Don't have an account?
+        <a href="{{ routes.account_register_url }}" style="color: var(--color-primary); font-weight: 600;">{{ 'customer.login_page.create_account' | t }}</a>
+      </p>
+
+      {%- comment -%} Password recovery form {%- endcomment -%}
+      <div id="recover" style="display: none; margin-top: 40px; padding-top: 40px; border-top: 1px solid rgba(0,0,0,0.08);">
+        <h2 class="h4" style="margin-bottom: 8px;">{{ 'customer.recover_password.title' | t }}</h2>
+        <p style="font-size: 0.9rem; color: var(--color-text-secondary); margin-bottom: 24px;">{{ 'customer.recover_password.subtext' | t }}</p>
+
+        {% form 'recover_customer_password' %}
+          {{ form.errors | default_errors }}
+
+          <div style="margin-bottom: 20px; text-align: left;">
+            <label for="RecoverEmail" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.login_page.email' | t }}</label>
+            <input
+              type="email"
+              name="email"
+              id="RecoverEmail"
+              autocomplete="email"
+              required
+              style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;"
+            >
+          </div>
+
+          <button type="submit" class="btn btn--primary" style="width: 100%;">{{ 'customer.login_page.submit' | t }}</button>
+        {% endform %}
+
+        <p style="margin-top: 16px;">
+          <a href="#" onclick="document.getElementById('recover').style.display='none'; return false;" style="font-size: 0.85rem; color: var(--color-primary);">{{ 'customer.login_page.cancel' | t }}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (window.location.hash === '#recover') {
+    document.getElementById('recover').style.display = 'block';
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Customer login",
+  "tag": "section",
+  "class": "section-login",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
+}
+{% endschema %}

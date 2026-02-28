@@ -1,0 +1,93 @@
+{% layout 'theme.gift_card' %}
+
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 60px 24px; background: var(--color-bg-primary);">
+  <div style="max-width: 480px; text-align: center;">
+    <a href="/" style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-secondary); display: inline-block; margin-bottom: 40px;">
+      {{ shop.name }}
+    </a>
+
+    <div style="background: linear-gradient(135deg, var(--color-secondary) 0%, #2a2a4e 100%); border-radius: var(--radius-lg); padding: 48px 32px; margin-bottom: 32px; color: #fff; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: -30px; right: -30px; width: 150px; height: 150px; border-radius: 50%; background: rgba(201,169,110,0.15);"></div>
+      <div style="position: absolute; bottom: -20px; left: -20px; width: 100px; height: 100px; border-radius: 50%; background: rgba(201,169,110,0.1);"></div>
+
+      <p style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary); margin-bottom: 16px; position: relative;">Gift Card</p>
+
+      <h1 style="font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 8px; color: #fff; position: relative;">
+        {{ gift_card.balance | money }}
+      </h1>
+
+      {%- if gift_card.balance != gift_card.initial_value -%}
+        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.5); position: relative;">
+          Initial value: {{ gift_card.initial_value | money }}
+        </p>
+      {%- endif -%}
+
+      {%- if gift_card.expires_on -%}
+        <p style="font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 16px; position: relative;">
+          {%- if gift_card.expired -%}
+            Expired on {{ gift_card.expires_on | date: '%B %d, %Y' }}
+          {%- else -%}
+            Expires on {{ gift_card.expires_on | date: '%B %d, %Y' }}
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div style="background: var(--color-bg-secondary, #f5f0eb); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px;">
+      <p style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 12px;">Your gift card code</p>
+      <p id="gift-card-code" style="font-family: monospace; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.15em; color: var(--color-secondary); word-break: break-all; {% if gift_card.expired %}text-decoration: line-through; opacity: 0.5;{% endif %}">
+        {{ gift_card.code | format_code }}
+      </p>
+    </div>
+
+    <div id="qr-code" style="display: inline-block; padding: 16px; background: #fff; border-radius: var(--radius-md); margin-bottom: 24px;" data-identifier="{{ gift_card.qr_identifier }}"></div>
+
+    {%- if gift_card.pass_url -%}
+      <div style="margin-bottom: 24px;">
+        <a href="{{ gift_card.pass_url }}" style="display: inline-block;">
+          <img src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" width="160" height="40" alt="Add to Apple Wallet" loading="lazy">
+        </a>
+      </div>
+    {%- endif -%}
+
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button onclick="selectCode()" class="btn btn--outline" style="padding: 12px 24px; font-size: 0.75rem;">
+        Copy Code
+      </button>
+      <a href="{{ shop.url }}" class="btn btn--primary" style="padding: 12px 24px; font-size: 0.75rem;">
+        Start Shopping
+      </a>
+    </div>
+
+    {%- if gift_card.enabled -%}
+      <button onclick="window.print()" style="margin-top: 16px; font-size: 0.8rem; color: var(--color-text-secondary); text-decoration: underline; background: none; border: none; cursor: pointer;">
+        Print gift card
+      </button>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var qrEl = document.getElementById('qr-code');
+    if (qrEl && typeof QRCode !== 'undefined') {
+      new QRCode(qrEl, {
+        text: qrEl.dataset.identifier,
+        width: 150,
+        height: 150
+      });
+    }
+  });
+
+  function selectCode() {
+    var codeEl = document.getElementById('gift-card-code');
+    if (codeEl) {
+      var range = document.createRange();
+      range.selectNodeContents(codeEl);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      navigator.clipboard.writeText(codeEl.textContent.trim()).catch(function(){});
+    }
+  }
+</script>

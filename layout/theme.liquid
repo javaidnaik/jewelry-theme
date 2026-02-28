@@ -94,14 +94,13 @@
   {% comment %} Mobile menu {% endcomment %}
   {% render 'mobile-menu' %}
 
-  {% section 'announcement-bar' %}
-  {% section 'header' %}
+  {% sections 'header-group' %}
 
   <main id="main-content" role="main">
     {{ content_for_layout }}
   </main>
 
-  {% section 'footer' %}
+  {% sections 'footer-group' %}
 
   {% comment %} Theme JavaScript {% endcomment %}
   <script src="{{ 'beatz.js' | asset_url }}" defer></script>

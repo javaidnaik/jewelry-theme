@@ -1,0 +1,39 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ 'gift_cards.issued.title' | t }} — {{ shop.name }}</title>
+
+  {{ settings.font_heading | font_face: font_display: 'swap' }}
+  {{ settings.font_body | font_face: font_display: 'swap' }}
+  {{ settings.font_accent | font_face: font_display: 'swap' }}
+
+  {% style %}
+    :root {
+      --color-primary: {{ settings.color_primary }};
+      --color-secondary: {{ settings.color_secondary }};
+      --color-bg-primary: {{ settings.color_bg_primary }};
+      --color-text-primary: {{ settings.color_text_primary }};
+      --color-text-secondary: {{ settings.color_text_secondary }};
+      --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      --font-accent: {{ settings.font_accent.family }}, {{ settings.font_accent.fallback_families }};
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+  {% endstyle %}
+
+  {{ 'beatz.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+
+<body class="template-gift-card">
+  {{ content_for_layout }}
+
+  <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+</body>
+</html>

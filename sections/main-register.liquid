@@ -1,0 +1,51 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container" style="max-width: 480px;">
+    <div style="text-align: center; padding: 60px 0;" data-animate>
+      <h1 class="h2" style="margin-bottom: 32px;">{{ 'customer.register.title' | t }}</h1>
+
+      {% form 'create_customer' %}
+        {{ form.errors | default_errors }}
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; text-align: left;">
+          <div>
+            <label for="FirstName" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.register.first_name' | t }}</label>
+            <input type="text" name="customer[first_name]" id="FirstName" autocomplete="given-name" style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+          </div>
+          <div>
+            <label for="LastName" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.register.last_name' | t }}</label>
+            <input type="text" name="customer[last_name]" id="LastName" autocomplete="family-name" style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px; text-align: left;">
+          <label for="Email" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.register.email' | t }}</label>
+          <input type="email" name="customer[email]" id="Email" autocomplete="email" required style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+        </div>
+
+        <div style="margin-bottom: 24px; text-align: left;">
+          <label for="Password" style="display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px;">{{ 'customer.register.password' | t }}</label>
+          <input type="password" name="customer[password]" id="Password" autocomplete="new-password" required style="width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.15); border-radius: var(--radius-sm); font-size: 0.9rem;">
+        </div>
+
+        <button type="submit" class="btn btn--primary" style="width: 100%;">{{ 'customer.register.submit' | t }}</button>
+      {% endform %}
+
+      <p style="margin-top: 24px; font-size: 0.9rem; color: var(--color-text-secondary);">
+        Already have an account?
+        <a href="{{ routes.account_login_url }}" style="color: var(--color-primary); font-weight: 600;">{{ 'customer.log_in' | t }}</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer register",
+  "tag": "section",
+  "class": "section-register",
+  "settings": [],
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"]
+  }
+}
+{% endschema %}
