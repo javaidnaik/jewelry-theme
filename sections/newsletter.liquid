@@ -1,0 +1,68 @@
+<div class="newsletter section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="newsletter__inner" data-animate>
+      {%- if section.settings.heading != blank -%}
+        <h2 class="newsletter__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="newsletter__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {% form 'customer', class: 'newsletter__form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input
+          type="email"
+          name="contact[email]"
+          class="newsletter__input"
+          placeholder="{{ section.settings.placeholder | default: 'Enter your email address' }}"
+          required
+          autocomplete="email"
+          aria-label="Email address"
+        >
+        <button type="submit" class="newsletter__submit">
+          {{ section.settings.button_text | default: 'Subscribe' }}
+        </button>
+      {% endform %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "class": "section-newsletter section--flush",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join the Beatz Family"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Be the first to know about new drops, exclusive offers, and style inspiration."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Subscribe"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

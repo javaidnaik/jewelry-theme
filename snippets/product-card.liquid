@@ -1,0 +1,96 @@
+{%- comment -%}
+  Renders a product card.
+  Usage: {% render 'product-card', product: product, show_vendor: true, show_swatches: true %}
+{%- endcomment -%}
+
+<div class="product-card" data-product-id="{{ product.id }}">
+  <div class="product-card__media">
+    {%- comment -%} Badges {%- endcomment -%}
+    {%- if product.available == false -%}
+      <span class="product-card__badge product-card__badge--soldout">Sold Out</span>
+    {%- elsif product.compare_at_price > product.price -%}
+      {%- assign savings = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+      <span class="product-card__badge product-card__badge--sale">-{{ savings }}%</span>
+    {%- elsif product.tags contains 'new' -%}
+      <span class="product-card__badge product-card__badge--new">New</span>
+    {%- endif -%}
+
+    {%- comment -%} Primary image {%- endcomment -%}
+    <a href="{{ product.url }}">
+      {%- if product.featured_image -%}
+        {{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 1024px) 25vw, (min-width: 769px) 33vw, 50vw' }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+
+      {%- comment -%} Secondary image (hover) {%- endcomment -%}
+      {%- if product.images.size > 1 -%}
+        <div class="product-card__media-secondary">
+          {{ product.images[1] | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 1024px) 25vw, (min-width: 769px) 33vw, 50vw' }}
+        </div>
+      {%- endif -%}
+    </a>
+
+    {%- comment -%} Quick actions {%- endcomment -%}
+    {%- if product.available -%}
+      <div class="product-card__quick-actions">
+        {%- if product.variants.size == 1 -%}
+          <form action="{{ routes.cart_add_url }}" method="post">
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="product-card__quick-add">
+              Quick Add
+            </button>
+          </form>
+        {%- else -%}
+          <a href="{{ product.url }}" class="product-card__quick-add">
+            Select Options
+          </a>
+        {%- endif -%}
+        <button class="product-card__wishlist" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="product-card__info">
+    {%- if show_vendor and product.vendor != blank -%}
+      <p class="product-card__vendor">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <div class="product-card__price">
+      {%- if product.compare_at_price > product.price -%}
+        <span class="product-card__price--sale">{{ product.price | money }}</span>
+        <span class="product-card__price--compare">{{ product.compare_at_price | money }}</span>
+      {%- else -%}
+        <span>{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if show_swatches -%}
+      {%- assign color_option = product.options_by_name['Color'] -%}
+      {%- if color_option and color_option.values.size > 1 -%}
+        <div class="product-card__swatches">
+          {%- for value in color_option.values limit: 5 -%}
+            <span
+              class="product-card__swatch{% if forloop.first %} is-active{% endif %}"
+              style="background-color: {{ value | handleize }};"
+              title="{{ value }}"
+              aria-label="{{ value }}"
+            ></span>
+          {%- endfor -%}
+          {%- if color_option.values.size > 5 -%}
+            <span class="product-card__swatch" style="background: linear-gradient(135deg, #ccc 25%, #999 75%); font-size: 0.55rem; display: flex; align-items: center; justify-content: center; width: 16px; height: 16px;">+{{ color_option.values.size | minus: 5 }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>

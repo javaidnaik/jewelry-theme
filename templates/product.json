@@ -1,0 +1,42 @@
+{
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "settings": {
+        "show_buy_now": true,
+        "show_trust_badges": true
+      },
+      "blocks": {
+        "tab-shipping": {
+          "type": "tab",
+          "settings": {
+            "heading": "Shipping & Returns",
+            "content": "<p>We offer free standard shipping on all orders over $100. International shipping available. Easy returns within 30 days — no questions asked.</p>"
+          }
+        },
+        "tab-care": {
+          "type": "tab",
+          "settings": {
+            "heading": "Care Instructions",
+            "content": "<p>Store your jewelry in a cool, dry place. Avoid contact with perfumes and chemicals. Clean gently with a soft cloth. Remove before swimming or bathing.</p>"
+          }
+        }
+      },
+      "block_order": ["tab-shipping", "tab-care"]
+    },
+    "related-products": {
+      "type": "featured-collection",
+      "settings": {
+        "label": "You may also like",
+        "heading": "Complete the Look",
+        "subheading": "Pieces that pair beautifully",
+        "products_to_show": 4,
+        "columns": 4,
+        "show_vendor": true,
+        "show_swatches": false,
+        "show_view_all": false
+      }
+    }
+  },
+  "order": ["main-product", "related-products"]
+}

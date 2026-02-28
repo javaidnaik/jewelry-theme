@@ -1,0 +1,118 @@
+{
+  "current": {
+    "color_primary": "#C9A96E",
+    "color_secondary": "#1A1A2E",
+    "color_tertiary": "#E8D5B7",
+    "color_bg_primary": "#FAFAFA",
+    "color_bg_secondary": "#F5F0EB",
+    "color_bg_dark": "#0D0D0D",
+    "color_text_primary": "#1A1A1A",
+    "color_text_secondary": "#6B6B6B",
+    "color_text_light": "#FFFFFF",
+    "font_heading_scale": 100,
+    "font_body_scale": 100,
+    "page_width": 1400,
+    "section_spacing": 40,
+    "border_radius_style": "small",
+    "cart_type": "drawer",
+    "cart_show_free_shipping_bar": true,
+    "cart_free_shipping_threshold": "100",
+    "content_for_index": {
+      "sections": {
+        "announcement-bar": {
+          "type": "announcement-bar",
+          "settings": {
+            "text": "FREE SHIPPING ON ORDERS OVER $100 | NEW COLLECTION JUST DROPPED",
+            "show_bar": true
+          }
+        },
+        "hero-banner": {
+          "type": "hero-banner",
+          "settings": {
+            "heading": "Luxury Redefined",
+            "subheading": "Discover handcrafted jewelry and curated fashion that speaks to your soul",
+            "button_text": "Shop Collection",
+            "button_link": "/collections/all",
+            "overlay_opacity": 30,
+            "text_position": "center",
+            "height": "full"
+          }
+        },
+        "marquee-text": {
+          "type": "marquee-text",
+          "settings": {
+            "text": "BEATZ — LUXURY JEWELRY — FASHION FORWARD — HANDCRAFTED — TIMELESS ELEGANCE —",
+            "speed": 30
+          }
+        },
+        "featured-collection": {
+          "type": "featured-collection",
+          "settings": {
+            "heading": "New Arrivals",
+            "subheading": "The latest pieces from our atelier",
+            "products_to_show": 8,
+            "columns": 4
+          }
+        },
+        "split-lookbook": {
+          "type": "split-lookbook",
+          "settings": {
+            "heading": "The Lookbook",
+            "subheading": "Style inspiration from our latest editorial"
+          }
+        },
+        "brand-story": {
+          "type": "brand-story",
+          "settings": {
+            "heading": "Our Craft",
+            "text": "Every piece tells a story. At Beatz, we blend traditional artisanship with contemporary design to create jewelry and fashion that transcends trends.",
+            "button_text": "Our Story",
+            "button_link": "/pages/about"
+          }
+        },
+        "featured-collection-2": {
+          "type": "featured-collection",
+          "settings": {
+            "heading": "Best Sellers",
+            "subheading": "Pieces loved by our community",
+            "products_to_show": 4,
+            "columns": 4
+          }
+        },
+        "testimonials": {
+          "type": "testimonials",
+          "settings": {
+            "heading": "What They Say"
+          }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Join the Beatz Family",
+            "subheading": "Be the first to know about new drops, exclusive offers, and style inspiration.",
+            "button_text": "Subscribe"
+          }
+        },
+        "instagram-feed": {
+          "type": "instagram-feed",
+          "settings": {
+            "heading": "Follow @beatz",
+            "instagram_url": "https://instagram.com/beatz"
+          }
+        }
+      },
+      "sections_order": [
+        "announcement-bar",
+        "hero-banner",
+        "marquee-text",
+        "featured-collection",
+        "split-lookbook",
+        "brand-story",
+        "featured-collection-2",
+        "testimonials",
+        "newsletter",
+        "instagram-feed"
+      ]
+    }
+  }
+}

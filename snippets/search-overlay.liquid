@@ -1,0 +1,39 @@
+{%- comment -%} Search overlay — rendered in theme.liquid {%- endcomment -%}
+
+<div class="search-overlay" id="search-overlay" aria-hidden="true">
+  <button class="search-overlay__close btn--icon" aria-label="Close search" style="width: 48px; height: 48px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+
+  <div class="search-overlay__inner">
+    <form action="{{ routes.search_url }}" method="get" class="search-overlay__form" role="search">
+      <input type="hidden" name="type" value="product">
+      <input
+        type="search"
+        name="q"
+        class="search-overlay__input"
+        placeholder="Search for jewelry, fashion..."
+        autocomplete="off"
+        aria-label="Search"
+      >
+      <button type="submit" class="search-overlay__submit btn--icon" aria-label="Submit search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+    </form>
+
+    <div class="search-overlay__suggestions">
+      <p class="search-overlay__suggestion-title">Popular Searches</p>
+      <a href="{{ routes.search_url }}?q=rings&type=product" class="search-overlay__suggestion-link">Rings</a>
+      <a href="{{ routes.search_url }}?q=necklaces&type=product" class="search-overlay__suggestion-link">Necklaces</a>
+      <a href="{{ routes.search_url }}?q=earrings&type=product" class="search-overlay__suggestion-link">Earrings</a>
+      <a href="{{ routes.search_url }}?q=bracelets&type=product" class="search-overlay__suggestion-link">Bracelets</a>
+      <a href="{{ routes.search_url }}?q=new+arrivals&type=product" class="search-overlay__suggestion-link">New Arrivals</a>
+    </div>
+  </div>
+</div>

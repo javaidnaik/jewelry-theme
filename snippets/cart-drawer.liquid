@@ -1,0 +1,93 @@
+{%- comment -%} Cart drawer — rendered in theme.liquid {%- endcomment -%}
+
+<div class="cart-drawer" id="cart-drawer" aria-hidden="true">
+  <div class="cart-drawer__overlay"></div>
+  <div class="cart-drawer__panel" role="dialog" aria-label="Shopping cart">
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">Your Bag ({{ cart.item_count }})</h2>
+      <button class="cart-drawer__close btn--icon" aria-label="Close cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="cart-drawer__content">
+      {%- if cart.item_count > 0 -%}
+        {%- comment -%} Free shipping progress bar {%- endcomment -%}
+        {%- if settings.cart_show_free_shipping_bar -%}
+          {%- assign threshold = settings.cart_free_shipping_threshold | times: 100 -%}
+          {%- assign remaining = threshold | minus: cart.total_price -%}
+          {%- assign progress = cart.total_price | times: 100 | divided_by: threshold -%}
+          {%- if progress > 100 %}{% assign progress = 100 %}{% endif -%}
+
+          <div class="cart-drawer__shipping-bar">
+            {%- if remaining > 0 -%}
+              <p class="cart-drawer__shipping-text">
+                You're <strong>{{ remaining | money }}</strong> away from free shipping!
+              </p>
+            {%- else -%}
+              <p class="cart-drawer__shipping-text" style="color: var(--color-primary);">
+                You've unlocked <strong>free shipping!</strong>
+              </p>
+            {%- endif -%}
+            <div class="cart-drawer__shipping-progress">
+              <div class="cart-drawer__shipping-fill" style="width: {{ progress }}%;"></div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="cart-drawer__items">
+          {%- for item in cart.items -%}
+            <div class="cart-drawer__item">
+              <a href="{{ item.url }}" class="cart-drawer__item-image">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 200 | image_tag: loading: 'lazy' }}
+                {%- endif -%}
+              </a>
+              <div class="cart-drawer__item-details">
+                <a href="{{ item.url }}" class="cart-drawer__item-title">{{ item.product.title }}</a>
+                {%- unless item.variant.title == 'Default Title' -%}
+                  <p class="cart-drawer__item-variant">{{ item.variant.title }}</p>
+                {%- endunless -%}
+                <p class="cart-drawer__item-price">{{ item.final_line_price | money }}</p>
+                <div class="cart-drawer__quantity" data-line="{{ forloop.index }}">
+                  <button data-action="minus" aria-label="Decrease quantity">−</button>
+                  <span>{{ item.quantity }}</span>
+                  <button data-action="plus" aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="cart-drawer__footer">
+          <div class="cart-drawer__subtotal">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <p class="cart-drawer__note">Taxes and shipping calculated at checkout.</p>
+          <a href="{{ routes.cart_url }}" class="btn btn--outline" style="width: 100%; margin-bottom: 12px;">
+            View Cart
+          </a>
+          <button type="submit" name="checkout" class="cart-drawer__checkout" onclick="window.location='{{ routes.cart_url }}/checkout'">
+            Checkout
+          </button>
+        </div>
+      {%- else -%}
+        <div class="cart-drawer__empty">
+          <div class="cart-drawer__empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64" height="64">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </div>
+          <p class="cart-drawer__empty-text">Your bag is empty</p>
+          <a href="/collections/all" class="btn btn--primary">Start Shopping</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

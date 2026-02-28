@@ -1,0 +1,19 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <h1 class="section-header__heading h2">{{ page.title }}</h1>
+    </div>
+    <div class="rte" style="max-width: 800px; margin: 0 auto; font-size: 1rem; line-height: 1.9; color: var(--color-text-secondary);">
+      {{ page.content }}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page",
+  "tag": "section",
+  "class": "section-page",
+  "settings": []
+}
+{% endschema %}

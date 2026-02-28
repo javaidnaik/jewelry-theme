@@ -1,0 +1,124 @@
+<div class="collection-page" data-section-id="{{ section.id }}">
+  <div class="container">
+    {%- comment -%} Collection header {%- endcomment -%}
+    <div class="collection-page__header" data-animate>
+      <p class="section-label">Collection</p>
+      <h1 class="collection-page__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-page__description">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Toolbar {%- endcomment -%}
+    <div class="collection-toolbar">
+      <span class="collection-toolbar__count">
+        {{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}
+      </span>
+
+      <button class="collection-toolbar__filters-toggle btn--icon" aria-label="Toggle filters">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+          <line x1="4" y1="21" x2="4" y2="14"/>
+          <line x1="4" y1="10" x2="4" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12" y2="3"/>
+          <line x1="20" y1="21" x2="20" y2="16"/>
+          <line x1="20" y1="12" x2="20" y2="3"/>
+          <line x1="1" y1="14" x2="7" y2="14"/>
+          <line x1="9" y1="8" x2="15" y2="8"/>
+          <line x1="17" y1="16" x2="23" y2="16"/>
+        </svg>
+        Filters
+      </button>
+
+      <div class="collection-toolbar__sort">
+        <select onchange="window.location.href = this.value;" aria-label="Sort products">
+          {%- for option in collection.sort_options -%}
+            <option value="{{ collection.url }}?sort_by={{ option.value }}" {% if collection.sort_by == option.value %}selected{% endif %}>
+              {{ option.name }}
+            </option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+
+    {%- comment -%} Products grid {%- endcomment -%}
+    <div
+      class="collection-scroll"
+      style="--cols: {{ section.settings.columns }};"
+      data-stagger
+    >
+      {%- paginate collection.products by section.settings.products_per_page -%}
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_swatches: section.settings.show_swatches %}
+        {%- endfor -%}
+      {%- endpaginate -%}
+    </div>
+
+    {%- comment -%} Pagination {%- endcomment -%}
+    {%- paginate collection.products by section.settings.products_per_page -%}
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 48px;" aria-label="Pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="btn btn--outline" style="padding: 10px 20px;">← Previous</a>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" style="padding: 10px 16px; border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-sm);">{{ part.title }}</a>
+            {%- else -%}
+              {%- if part.title == paginate.current_page -%}
+                <span style="padding: 10px 16px; background: var(--color-primary); color: #fff; border-radius: var(--radius-sm); font-weight: 600;">{{ part.title }}</span>
+              {%- else -%}
+                <span style="padding: 10px 16px;">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="btn btn--outline" style="padding: 10px 20px;">Next →</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection page",
+  "tag": "section",
+  "class": "section-collection",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show color swatches",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

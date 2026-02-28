@@ -1,0 +1,122 @@
+<div class="cart-page section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="section-header">
+      <h1 class="section-header__heading h2">Your Bag</h1>
+      {%- if cart.item_count > 0 -%}
+        <p class="section-header__subheading">{{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      {%- comment -%} Free shipping bar {%- endcomment -%}
+      {%- if settings.cart_show_free_shipping_bar -%}
+        {%- assign threshold = settings.cart_free_shipping_threshold | times: 100 -%}
+        {%- assign remaining = threshold | minus: cart.total_price -%}
+        {%- assign progress = cart.total_price | times: 100 | divided_by: threshold -%}
+        {%- if progress > 100 %}{% assign progress = 100 %}{% endif -%}
+
+        <div style="max-width: 500px; margin: 0 auto 40px; text-align: center;">
+          {%- if remaining > 0 -%}
+            <p style="font-size: 0.9rem; margin-bottom: 8px;">
+              You're <strong>{{ remaining | money }}</strong> away from free shipping!
+            </p>
+          {%- else -%}
+            <p style="font-size: 0.9rem; margin-bottom: 8px; color: var(--color-primary);">
+              You've unlocked <strong>free shipping!</strong>
+            </p>
+          {%- endif -%}
+          <div class="cart-drawer__shipping-progress">
+            <div class="cart-drawer__shipping-fill" style="width: {{ progress }}%;"></div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <form action="{{ routes.cart_url }}" method="post">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for item in cart.items -%}
+              <tr class="cart-item">
+                <td>
+                  <div class="cart-item__product">
+                    <a href="{{ item.url }}" class="cart-item__image">
+                      {%- if item.image -%}
+                        {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy' }}
+                      {%- endif -%}
+                    </a>
+                    <div>
+                      <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+                      {%- unless item.variant.title == 'Default Title' -%}
+                        <p class="cart-item__variant">{{ item.variant.title }}</p>
+                      {%- endunless -%}
+                      <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="cart-item__remove">Remove</a>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ item.final_price | money }}</td>
+                <td>
+                  <div class="product-form__quantity">
+                    <button type="button" data-qty-minus aria-label="Decrease">−</button>
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity">
+                    <button type="button" data-qty-plus aria-label="Increase">+</button>
+                  </div>
+                </td>
+                <td style="font-weight: 600;">{{ item.final_line_price | money }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+
+        <div class="cart-summary">
+          <div class="cart-summary__row">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--color-text-secondary); margin-bottom: 8px;">
+            Taxes and shipping calculated at checkout.
+          </p>
+          <div class="cart-summary__row cart-summary__total">
+            <span>Total</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <div style="margin-top: 24px;">
+            <button type="submit" name="update" class="btn btn--outline" style="width: 100%; margin-bottom: 12px;">
+              Update Cart
+            </button>
+            <button type="submit" name="checkout" class="btn btn--primary" style="width: 100%;">
+              Checkout
+            </button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div style="text-align: center; padding: 60px 0;">
+        <div style="width: 80px; height: 80px; margin: 0 auto 24px; color: var(--color-text-secondary);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="80" height="80">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </div>
+        <p class="subheading" style="margin-bottom: 32px;">Your bag is empty. Time to treat yourself.</p>
+        <a href="/collections/all" class="btn btn--primary">Continue Shopping</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart page",
+  "tag": "section",
+  "class": "section-cart",
+  "settings": []
+}
+{% endschema %}

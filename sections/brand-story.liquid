@@ -1,0 +1,130 @@
+{%- assign dark = section.settings.dark_mode -%}
+
+<div class="brand-story section{% if dark %} brand-story--dark{% endif %}" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="brand-story__inner">
+      <div class="brand-story__media" data-animate="fade-left">
+        <div class="brand-story__image">
+          {%- if section.settings.image -%}
+            {{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', sizes: '(min-width: 769px) 50vw, 100vw' }}
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+        <div class="brand-story__image-accent"></div>
+      </div>
+
+      <div class="brand-story__content" data-animate="fade-right">
+        {%- if section.settings.label != blank -%}
+          <p class="section-label">{{ section.settings.label }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="brand-story__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.text != blank -%}
+          <div class="brand-story__text">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.button_text != blank -%}
+          <a href="{{ section.settings.button_link }}" class="btn {% if dark %}btn--outline-light{% else %}btn--primary{% endif %}">
+            {{ section.settings.button_text }}
+          </a>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="brand-story__stats">
+            {%- for block in section.blocks -%}
+              <div class="brand-story__stat" {{ block.shopify_attributes }}>
+                <div class="brand-story__stat-number">{{ block.settings.number }}</div>
+                <div class="brand-story__stat-label">{{ block.settings.label }}</div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Brand story",
+  "tag": "section",
+  "class": "section-brand-story",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "dark_mode",
+      "label": "Dark background",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Since 2020"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Craft"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Body text",
+      "default": "<p>Every piece tells a story. At Beatz, we blend traditional artisanship with contemporary design to create jewelry and fashion that transcends trends. Each item is handcrafted with care, using only the finest materials sourced from around the world.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Our Story"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "500+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Unique pieces"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand story",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "500+", "label": "Unique pieces" } },
+        { "type": "stat", "settings": { "number": "50K", "label": "Happy customers" } },
+        { "type": "stat", "settings": { "number": "15", "label": "Countries" } }
+      ]
+    }
+  ],
+  "max_blocks": 4
+}
+{% endschema %}

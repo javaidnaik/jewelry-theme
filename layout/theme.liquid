@@ -1,0 +1,122 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{{ settings.text_direction | default: 'ltr' }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+
+  <title>
+    {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {% if settings.favicon %}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {% endif %}
+
+  {% comment %} Preconnect to Shopify CDN {% endcomment %}
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+  {% comment %} Theme fonts {% endcomment %}
+  {{ settings.font_heading | font_face: font_display: 'swap' }}
+  {{ settings.font_body | font_face: font_display: 'swap' }}
+  {{ settings.font_accent | font_face: font_display: 'swap' }}
+
+  {% comment %} CSS Custom Properties {% endcomment %}
+  {% style %}
+    :root {
+      /* Colors */
+      --color-primary: {{ settings.color_primary }};
+      --color-primary-rgb: {{ settings.color_primary | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+      --color-secondary: {{ settings.color_secondary }};
+      --color-secondary-rgb: {{ settings.color_secondary | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+      --color-tertiary: {{ settings.color_tertiary }};
+      --color-bg-primary: {{ settings.color_bg_primary }};
+      --color-bg-secondary: {{ settings.color_bg_secondary }};
+      --color-bg-dark: {{ settings.color_bg_dark }};
+      --color-text-primary: {{ settings.color_text_primary }};
+      --color-text-secondary: {{ settings.color_text_secondary }};
+      --color-text-light: {{ settings.color_text_light }};
+
+      /* Typography */
+      --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      --font-heading-weight: {{ settings.font_heading.weight }};
+      --font-heading-style: {{ settings.font_heading.style }};
+      --font-heading-scale: {{ settings.font_heading_scale | divided_by: 100.0 }};
+
+      --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      --font-body-weight: {{ settings.font_body.weight }};
+      --font-body-style: {{ settings.font_body.style }};
+      --font-body-scale: {{ settings.font_body_scale | divided_by: 100.0 }};
+
+      --font-accent: {{ settings.font_accent.family }}, {{ settings.font_accent.fallback_families }};
+
+      /* Layout */
+      --page-width: {{ settings.page_width }}px;
+      --section-spacing: {{ settings.section_spacing }}px;
+
+      /* Border radius */
+      {% case settings.border_radius_style %}
+        {% when 'none' %}
+          --radius-sm: 0; --radius-md: 0; --radius-lg: 0; --radius-pill: 0;
+        {% when 'small' %}
+          --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-pill: 50px;
+        {% when 'medium' %}
+          --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px; --radius-pill: 50px;
+        {% when 'pill' %}
+          --radius-sm: 50px; --radius-md: 50px; --radius-lg: 50px; --radius-pill: 50px;
+      {% endcase %}
+    }
+  {% endstyle %}
+
+  {{ 'beatz.css' | asset_url | stylesheet_tag }}
+
+  {{ content_for_header }}
+</head>
+
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+  <a class="skip-link visually-hidden" href="#main-content">{{ 'accessibility.skip_to_content' | t }}</a>
+
+  {% comment %} Cart drawer {% endcomment %}
+  {% if settings.cart_type == 'drawer' %}
+    {% render 'cart-drawer' %}
+  {% endif %}
+
+  {% comment %} Search overlay {% endcomment %}
+  {% render 'search-overlay' %}
+
+  {% comment %} Mobile menu {% endcomment %}
+  {% render 'mobile-menu' %}
+
+  {% section 'announcement-bar' %}
+  {% section 'header' %}
+
+  <main id="main-content" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+
+  {% comment %} Theme JavaScript {% endcomment %}
+  <script src="{{ 'beatz.js' | asset_url }}" defer></script>
+
+  {% comment %} Liquid AJAX Cart Support {% endcomment %}
+  <script>
+    window.Beatz = window.Beatz || {};
+    window.Beatz.routes = {
+      cart_url: '{{ routes.cart_url }}',
+      cart_add_url: '{{ routes.cart_add_url }}',
+      cart_change_url: '{{ routes.cart_change_url }}',
+      cart_update_url: '{{ routes.cart_update_url }}',
+      search_url: '{{ routes.search_url }}'
+    };
+    window.Beatz.money_format = {{ shop.money_format | json }};
+  </script>
+</body>
+</html>

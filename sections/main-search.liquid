@@ -1,0 +1,62 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <h1 class="section-header__heading h2">
+        {%- if search.performed -%}
+          Search results for "{{ search.terms }}"
+        {%- else -%}
+          Search
+        {%- endif -%}
+      </h1>
+    </div>
+
+    <div style="max-width: 600px; margin: 0 auto 48px;">
+      <form action="{{ routes.search_url }}" method="get" class="search-overlay__form" style="position: relative;">
+        <input type="hidden" name="type" value="product">
+        <input
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          class="search-overlay__input"
+          style="font-size: 1.4rem;"
+          placeholder="Search for jewelry, fashion..."
+          autocomplete="off"
+          aria-label="Search"
+        >
+        <button type="submit" class="search-overlay__submit btn--icon" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </form>
+    </div>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p style="text-align: center; margin-bottom: 32px; color: var(--color-text-secondary);">
+          {{ search.results_count }} {{ search.results_count | pluralize: 'result', 'results' }}
+        </p>
+        <div class="collection-scroll" style="--cols: 4;" data-stagger>
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item, show_vendor: true, show_swatches: false %}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div style="text-align: center; padding: 60px 0;">
+          <p class="subheading" style="margin-bottom: 24px;">No results found for "{{ search.terms }}"</p>
+          <p style="color: var(--color-text-secondary);">Try different keywords or browse our collections.</p>
+          <a href="/collections/all" class="btn btn--primary" style="margin-top: 24px;">Shop All</a>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search results",
+  "tag": "section",
+  "class": "section-search",
+  "settings": []
+}
+{% endschema %}

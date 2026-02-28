@@ -1,0 +1,36 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-label">Browse</p>
+      <h1 class="section-header__heading h2">All Collections</h1>
+    </div>
+
+    <div class="collection-list__grid" data-stagger>
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'frontpage' -%}
+          <a href="{{ collection.url }}" class="collection-card">
+            {%- if collection.image -%}
+              {{ collection.image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'collection-card__image', sizes: '(min-width: 769px) 33vw, 50vw' }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg collection-card__image' }}
+            {%- endif -%}
+            <div class="collection-card__overlay">
+              <h3 class="collection-card__title">{{ collection.title }}</h3>
+              <p class="collection-card__count">{{ collection.products_count }} products</p>
+              <span class="collection-card__link">Shop Now →</span>
+            </div>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "tag": "section",
+  "class": "section-list-collections",
+  "settings": []
+}
+{% endschema %}

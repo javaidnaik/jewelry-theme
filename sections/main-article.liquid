@@ -1,0 +1,45 @@
+<div class="section" data-section-id="{{ section.id }}">
+  <div class="container" style="max-width: 800px;">
+    <div style="text-align: center; margin-bottom: 48px;" data-animate>
+      <p class="section-label">{{ article.published_at | date: '%B %d, %Y' }}</p>
+      <h1 class="h2" style="margin-bottom: 16px;">{{ article.title }}</h1>
+      {%- if article.author -%}
+        <p class="subheading">By {{ article.author }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if article.image -%}
+      <div style="border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 48px;" data-animate>
+        {{ article.image | image_url: width: 1200 | image_tag: loading: 'eager', sizes: '(min-width: 800px) 800px, 100vw' }}
+      </div>
+    {%- endif -%}
+
+    <div class="rte" style="font-size: 1.05rem; line-height: 1.9; color: var(--color-text-secondary);" data-animate>
+      {{ article.content }}
+    </div>
+
+    {%- if article.tags.size > 0 -%}
+      <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.08);">
+        <p style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 12px;">Tags</p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          {%- for tag in article.tags -%}
+            <a href="{{ blog.url }}/tagged/{{ tag | handleize }}" style="padding: 6px 16px; border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-pill); font-size: 0.8rem;">{{ tag }}</a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div style="margin-top: 48px; text-align: center;">
+      <a href="{{ blog.url }}" class="btn btn--outline">← Back to {{ blog.title }}</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Article",
+  "tag": "section",
+  "class": "section-article",
+  "settings": []
+}
+{% endschema %}

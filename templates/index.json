@@ -1,0 +1,172 @@
+{
+  "sections": {
+    "hero-banner": {
+      "type": "hero-banner",
+      "settings": {
+        "heading": "Luxury Redefined",
+        "subheading": "Discover handcrafted jewelry and curated fashion that speaks to your soul",
+        "eyebrow": "New Season",
+        "button_text": "Shop Collection",
+        "button_link": "/collections/all",
+        "button_text_2": "Our Story",
+        "button_link_2": "/pages/about",
+        "overlay_opacity": 30,
+        "text_position": "center",
+        "height": "full",
+        "show_scroll_indicator": true
+      }
+    },
+    "marquee-text": {
+      "type": "marquee-text",
+      "settings": {
+        "text": "BEATZ — LUXURY JEWELRY — FASHION FORWARD — HANDCRAFTED — TIMELESS ELEGANCE —",
+        "speed": 30
+      }
+    },
+    "featured-collection-1": {
+      "type": "featured-collection",
+      "settings": {
+        "label": "Curated",
+        "heading": "New Arrivals",
+        "subheading": "The latest pieces from our atelier",
+        "products_to_show": 8,
+        "columns": 4,
+        "show_vendor": true,
+        "show_swatches": true,
+        "show_view_all": true
+      }
+    },
+    "collection-list": {
+      "type": "collection-list",
+      "settings": {
+        "label": "Collections",
+        "heading": "Shop by Category",
+        "subheading": "Find your perfect piece"
+      },
+      "blocks": {
+        "col-1": { "type": "collection", "settings": { "title": "Rings" } },
+        "col-2": { "type": "collection", "settings": { "title": "Necklaces" } },
+        "col-3": { "type": "collection", "settings": { "title": "Earrings" } }
+      },
+      "block_order": ["col-1", "col-2", "col-3"]
+    },
+    "split-lookbook": {
+      "type": "split-lookbook",
+      "settings": {
+        "label": "Editorial",
+        "heading": "The Lookbook",
+        "subheading": "Style inspiration from our latest editorial"
+      },
+      "blocks": {
+        "look-1": { "type": "image", "settings": { "title": "Signature Rings" } },
+        "look-2": { "type": "image", "settings": { "title": "Gold Essentials" } },
+        "look-3": { "type": "image", "settings": { "title": "Layered Necklaces" } }
+      },
+      "block_order": ["look-1", "look-2", "look-3"]
+    },
+    "brand-story": {
+      "type": "brand-story",
+      "settings": {
+        "label": "Since 2020",
+        "heading": "Our Craft",
+        "text": "<p>Every piece tells a story. At Beatz, we blend traditional artisanship with contemporary design to create jewelry and fashion that transcends trends. Each item is handcrafted with care, using only the finest materials sourced from around the world.</p>",
+        "button_text": "Our Story",
+        "button_link": "/pages/about",
+        "dark_mode": false
+      },
+      "blocks": {
+        "stat-1": { "type": "stat", "settings": { "number": "500+", "label": "Unique pieces" } },
+        "stat-2": { "type": "stat", "settings": { "number": "50K", "label": "Happy customers" } },
+        "stat-3": { "type": "stat", "settings": { "number": "15", "label": "Countries" } }
+      },
+      "block_order": ["stat-1", "stat-2", "stat-3"]
+    },
+    "featured-collection-2": {
+      "type": "featured-collection",
+      "settings": {
+        "label": "Popular",
+        "heading": "Best Sellers",
+        "subheading": "Pieces loved by our community",
+        "products_to_show": 4,
+        "columns": 4,
+        "show_vendor": true,
+        "show_swatches": true,
+        "show_view_all": true
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "label": "Reviews",
+        "heading": "What They Say",
+        "subheading": "Loved by thousands of customers worldwide"
+      },
+      "blocks": {
+        "test-1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "The craftsmanship is absolutely exquisite. I've never owned jewelry that makes me feel so special. Beatz has become my go-to for every occasion.",
+            "author": "Sarah Mitchell",
+            "title": "Verified Buyer"
+          }
+        },
+        "test-2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Fast shipping, beautiful packaging, and the necklace exceeded my expectations. The attention to detail is unmatched.",
+            "author": "Jessica Chen",
+            "title": "Verified Buyer"
+          }
+        },
+        "test-3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "I bought matching bracelets for my bridesmaids and they were all in tears. Beatz made our special day even more memorable.",
+            "author": "Amanda Rossi",
+            "title": "Verified Buyer"
+          }
+        }
+      },
+      "block_order": ["test-1", "test-2", "test-3"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Join the Beatz Family",
+        "subheading": "Be the first to know about new drops, exclusive offers, and style inspiration.",
+        "button_text": "Subscribe"
+      }
+    },
+    "instagram-feed": {
+      "type": "instagram-feed",
+      "settings": {
+        "heading": "Follow @beatz",
+        "subheading": "Tag us to be featured"
+      },
+      "blocks": {
+        "ig-1": { "type": "image" },
+        "ig-2": { "type": "image" },
+        "ig-3": { "type": "image" },
+        "ig-4": { "type": "image" },
+        "ig-5": { "type": "image" },
+        "ig-6": { "type": "image" }
+      },
+      "block_order": ["ig-1", "ig-2", "ig-3", "ig-4", "ig-5", "ig-6"]
+    }
+  },
+  "order": [
+    "hero-banner",
+    "marquee-text",
+    "featured-collection-1",
+    "collection-list",
+    "split-lookbook",
+    "brand-story",
+    "featured-collection-2",
+    "testimonials",
+    "newsletter",
+    "instagram-feed"
+  ]
+}
